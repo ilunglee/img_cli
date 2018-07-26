@@ -24,6 +24,12 @@ module ImgCLI
 
       private
 
+      def output_errors
+        return unless exif.errors.any?
+        puts Pastel.new.red('The following files failed due to exceptions')
+        puts exif.errors
+      end
+
       def exif
         @exif ||= ImgCLI::EXIF.call(dirs)
       end
@@ -48,6 +54,7 @@ module ImgCLI
           spinner.update(title: "#{exif.count} file(s) loaded")
         end
         puts exif.table
+        output_errors
       end
 
       def export_files

@@ -20,7 +20,6 @@ module ImgCLI
       extract_images
       sort_images
       output_results
-      output_errors if errors.any?
       self
     end
 
@@ -33,11 +32,6 @@ module ImgCLI
     end
 
     private
-
-    def output_errors
-      puts Pastel.new.red('The following files failed due to exceptions')
-      puts errors
-    end
 
     def output_results
       rows       = files.map(&:values)
