@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby
+
+# Setup
+require 'rubygems'
+require 'bundler/setup'
+require 'commander/import'
+require 'img_cli'
+
+# Debugging
+require 'byebug'
+
+program :name, 'Image CLI'
+program :version, ImgCLI::VERSION
+program :description, 'A simple cli that does nothing'
+
+command :exif do |c|
+  c.syntax      = 'img_cli exif dir --format=html'
+  c.description = 'Extract EXIF from jpg, jpeg'
+
+  c.option '--format STRING',   String, 'Option format with a string'
+  c.option '--filename STRING', String, 'Option filename with a string'
+  c.action do |args, options|
+    options.default format: 'csv'
+    options.default filename: 'results'
+
+    dirs = args.any? ? args : Dir.pwd
+
+    puts "Directories: #{dirs}"
+    puts "Option Format: #{options.format}"
+    puts "Option Filename: #{options.filename}"
+
+    ImgCLI::Commands::EXIF.call(dirs, extension: options.format,
+                                      filename: options.filename)
+  end
+end
