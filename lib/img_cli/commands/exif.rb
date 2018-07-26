@@ -44,25 +44,27 @@ module ImgCLI
       end
 
       def load_files
-        loading('Loading files...', "#{exif.count} file(s) loaded")
+        loading('Loading files...') do
+          spinner.update(title: "#{exif.count} file(s) loaded")
+        end
         puts exif.table
       end
 
       def export_files
         name = "#{filename}.#{extension}"
-        loading("exporting file as #{extension}", "exported to #{name}") do
+        loading("exporting file as #{extension}") do
           File.open(name, 'w+') { |f| f.write export.result }
+          spinner.update(title: "exported to #{name}")
         end
       end
 
       # rubocop:disable Metrics/AbcSize
-      def loading(start, success)
+      def loading(start)
         spinner.reset
         spinner.update(title: start)
         spinner.auto_spin
         sleep(2)
         yield if block_given?
-        spinner.update(title: success)
         spinner.success
       rescue StandardError => e
         spinner.error('(error)')

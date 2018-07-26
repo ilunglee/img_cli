@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     img_cli (0.1.0)
+      bundler (~> 1.10)
       commander (~> 4.4)
       exifr (~> 1.3)
       pastel (~> 0.7)
@@ -48,7 +49,6 @@ PLATFORMS
 
 DEPENDENCIES
   awesome_print (~> 1.6)
-  bundler (~> 1.10)
   byebug (~> 10.0)
   img_cli!
   rspec (~> 3.3)

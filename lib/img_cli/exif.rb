@@ -8,17 +8,19 @@ module ImgCLI
     extend ImgCLI::Extensions::Callable
 
     attr_reader :dirs
-    attr_accessor :files, :table
+    attr_accessor :files, :table, :errors
 
     def initialize(*args)
-      @dirs  = args.flatten
-      @files = []
+      @dirs   = args.flatten
+      @files  = []
+      @errors = []
     end
 
     def call
       extract_images
       sort_images
       output_results
+      output_errors if errors.any?
       self
     end
 
@@ -32,6 +34,11 @@ module ImgCLI
 
     private
 
+    def output_errors
+      puts Pastel.new.red('The following files failed due to exceptions')
+      puts errors
+    end
+
     def output_results
       rows       = files.map(&:values)
       self.table = Terminal::Table.new rows: rows, headings: headings
@@ -42,7 +49,8 @@ module ImgCLI
         next unless File.directory?(dir)
         Dir["#{dir}/**/*.{jpg,jpeg}"].each do |file|
           next if File.directory? file
-          files.push(format_file(file))
+          data = format_file(file)
+          data && files.push(data)
         end
       end
     end
@@ -58,6 +66,9 @@ module ImgCLI
         ext:  File.extname(file),
         size: File.size(file)
       }.merge(extract_exif(file))
+    rescue EXIFR::MalformedJPEG => e
+      errors.push "#{e.class} - #{e.message}: #{file}"
+      nil
     end
 
     def extract_exif(file)
