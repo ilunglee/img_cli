@@ -11,7 +11,7 @@ module ImgCLI
     attr_accessor :files, :table
 
     def initialize(*args)
-      @dirs  = args
+      @dirs  = args.flatten
       @files = []
     end
 

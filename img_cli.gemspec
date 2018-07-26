@@ -10,8 +10,8 @@ Gem::Specification.new do |s|
   s.authors     = ['Nelson Lee']
   s.email       = ['ilung.me@gmail.com']
   s.homepage    = 'https://www.ilung.me'
-  s.summary     = 'Image CLI'
-  s.description = 'This is a gem for extracting Image EXIF'
+  s.summary     = 'A simple tool to extract EXIF data from jpg and jpeg and outputs to html or csv'
+  s.description = 'A simple tool to extract EXIF data from jpg and jpeg and outputs to html or csv'
   s.license     = 'MIT'
   s.files       = Dir['{lib}/**/*', 'MIT-LICENSE', 'README.md']
   s.required_ruby_version = '>= 2.5.0'
