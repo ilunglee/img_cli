@@ -18,6 +18,7 @@ open results.csv
 ```shell
 # csv
 img_cli exif --format=csv
+open results.csv
 # html
 img_cli exif --format=html
 open results.html
