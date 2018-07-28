@@ -12,4 +12,8 @@ shared_examples 'export' do
   it 'returns result' do
     expect(subject.result.class).to eq(String)
   end
+
+  it 'matches expected output' do
+    expect(subject.result).to eq(output)
+  end
 end
